@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, tap } from 'rxjs';
-import { ITask, TaskStatus, TaskStatusEnum } from './task-interface';
+import { Icomment, ITask, TaskStatus, TaskStatusEnum } from './task-interface';
 import { ITaskFormControls } from '../interfaces/task-form-controls-interface';
 import { generateIdTimestamp } from '../utils/date.utils';
 
 @Injectable({
   providedIn: 'root',
 })
-export class taskService {
+export class TaskService {
   private todoTasks$ = new BehaviorSubject<ITask[]>([]);
   readonly todoTasks = this.todoTasks$.asObservable().pipe(map((tasks) => structuredClone(tasks)));
 
@@ -52,6 +52,19 @@ export class taskService {
       currentList.next(currentList.value.filter((task) => task.id !== taskId));
       nextList.next([...nextList.value, task]);
     }
+  }
+
+  updateTaskComments(taskInfos: ITask) {
+    const currentList = this.getTaskListByStatus(taskInfos.status!);
+    currentList.next(
+      currentList.value.map((task) => {
+        if (task.id === taskInfos.id) {
+          return { ...taskInfos };
+        } else {
+          return { ...task };
+        }
+      }),
+    );
   }
 
   private getTaskListByStatus(taskStatus: TaskStatus) {

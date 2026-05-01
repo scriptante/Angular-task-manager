@@ -1,7 +1,7 @@
 import { Component, inject, Input } from '@angular/core';
 import { ModalController } from '../../services/modal-controller';
 import { ITask } from '../../services/task-interface';
-import { taskService } from '../../services/task.service';
+import { TaskService } from '../../services/task.service';
 
 @Component({
   selector: 'app-task-card',
@@ -11,7 +11,7 @@ import { taskService } from '../../services/task.service';
 })
 export class TaskCard {
   private readonly modalController = inject(ModalController);
-  private readonly taskService = inject(taskService);
+  private readonly taskService = inject(TaskService);
   @Input({ required: true }) task!: ITask;
 
   editTask() {
@@ -26,5 +26,9 @@ export class TaskCard {
         this.taskService.updateTask(taskform);
       }
     });
+  }
+
+  OpanTaskCommentsModal() {
+    const dialogRef = this.modalController.openTaskCommentsModal(this.task);
   }
 }

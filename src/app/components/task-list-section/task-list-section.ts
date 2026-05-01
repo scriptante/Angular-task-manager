@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { TaskCard } from '../task-card/task-card';
-import { taskService } from '../../services/task.service';
+import { TaskService } from '../../services/task.service';
 import {
   CdkDrag,
   CdkDragDrop,
@@ -18,7 +18,7 @@ import { AsyncPipe } from '@angular/common';
   styleUrl: './task-list-section.css',
 })
 export class TaskListSection {
-  readonly _taskService = inject(taskService);
+  readonly _taskService = inject(TaskService);
 
   onCardDrop(event: CdkDragDrop<ITask[]>) {
     this.moveCardToColumn(event);

@@ -15,6 +15,7 @@ export class TaskFormModal {
   readonly _dialogRef = inject(DialogRef);
 
   taskForm: FormGroup = new FormGroup({
+    id: new FormControl(this._data.formValues.id),
     name: new FormControl(this._data.formValues.name, [
       Validators.required,
       Validators.minLength(10),
@@ -23,6 +24,7 @@ export class TaskFormModal {
       Validators.required,
       Validators.minLength(10),
     ]),
+    status: new FormControl(this._data.formValues.status),
   });
 
   onFormSubmit() {

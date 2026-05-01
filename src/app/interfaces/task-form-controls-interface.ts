@@ -1,4 +1,8 @@
+import { TaskStatus } from '../services/task-interface';
+
 export interface ITaskFormControls {
-    name: string;
-    description: string;
+  id?: string;
+  name: string;
+  description: string;
+  status?: TaskStatus;
 }

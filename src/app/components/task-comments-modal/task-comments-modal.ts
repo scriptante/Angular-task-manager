@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { Icomment, ITask } from '../../services/task-interface';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -15,6 +15,7 @@ export class TaskCommentsModal {
   readonly _data = inject(DIALOG_DATA);
   readonly _dialogRef: DialogRef<boolean> = inject(DialogRef);
   readonly taskService = inject(TaskService);
+  @ViewChild('commentInput') commentInputRef!: ElementRef<HTMLInputElement>;
   task: ITask = { ...this._data.task };
   commentControl = new FormControl('', [Validators.required]);
 
@@ -27,7 +28,13 @@ export class TaskCommentsModal {
       this.task.comments = [newComment, ...this.task.comments];
       this.commentControl.reset();
       this.taskService.updateTaskComments(this.task);
+      this.commentInputRef.nativeElement.focus();
     }
+  }
+
+  removeComment(commentId: string) {
+    this.task.comments = this.task.comments.filter((comment) => comment.id !== commentId);
+    this.taskService.updateTaskComments(this.task);
   }
 
   onCloseModal() {

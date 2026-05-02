@@ -1,9 +1,19 @@
 <div class="p-3 bg-[#FAFAFA] rounded-xl cursor-grab flex flex-col gap-3">
   <div class="flex gap-1">
-    <p class="font-bold">{{ task.name }}</p>
-    <img class="self-start cursor-pointer ml-auto" src="images/icon-delete.svg" />
+    <p class="font-bold" [title]="task.name">
+      {{ task.name.length < 17 ? task.name : (task.name | slice: 0 : 17) + '...' }}
+    </p>
+    <img
+      class="self-start cursor-pointer ml-auto"
+      src="images/icon-delete.svg"
+      (click)="deleteTask(task)"
+    />
   </div>
-  <div class="font-light text-sm">{{ task.description }}</div>
+  <div class="font-light text-sm" [title]="task.description">
+    {{
+      task.description.length < 17 ? task.description : (task.description | slice: 0 : 20) + '...'
+    }}
+  </div>
   <div class="flex items-center gap-1">
     <img src="images/icon-comments.svg" />
     <p

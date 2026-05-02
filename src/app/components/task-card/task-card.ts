@@ -2,10 +2,11 @@ import { Component, inject, Input } from '@angular/core';
 import { ModalController } from '../../services/modal-controller';
 import { ITask } from '../../services/task-interface';
 import { TaskService } from '../../services/task.service';
+import { SlicePipe } from '@angular/common';
 
 @Component({
   selector: 'app-task-card',
-  imports: [],
+  imports: [SlicePipe],
   templateUrl: './task-card.html',
   styleUrl: './task-card.css',
 })
@@ -28,7 +29,11 @@ export class TaskCard {
     });
   }
 
+  deleteTask(taskToRemove: ITask) {
+    this.taskService.deleteTask(taskToRemove.id, taskToRemove.status);
+  }
+
   OpanTaskCommentsModal() {
-    const dialogRef = this.modalController.openTaskCommentsModal(this.task);
+    this.modalController.openTaskCommentsModal(this.task);
   }
 }
